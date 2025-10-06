@@ -12,11 +12,9 @@ app.use(bodyParser.json());
 var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
-//app.get('/*', function (req, res) {
-//    res.sendFile(distDir);
-//});
-
-
+app.get('/*', function (req, res) {
+    res.sendFile(distDir);
+});
 
 
 app.use(function(req, res, next) {
@@ -24,7 +22,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-  //res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; //connect-src 'self';");
   next();
 });
 

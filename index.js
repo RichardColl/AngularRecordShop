@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 
-const port = process.env.PORT || 5006
+//const port = process.env.PORT || 5006
 
 const app = express()
 
@@ -24,9 +24,11 @@ app.use(function(req, res, next) {
 });
 
 
-const server = app.listen(port, () => {
-  console.log(`Listening on ${port}`)
-})
+ // Initialize the app.
+  var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+  });
 
 // The number of seconds an idle Keep-Alive connection is kept open. This should be greater than the Heroku Router's
 // Keep-Alive idle timeout of 90 seconds:

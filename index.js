@@ -1,34 +1,22 @@
 const express = require('express')
 const path = require('path')
 
-//const port = process.env.PORT || 5006
+const port = process.env.PORT || 5006
 
 const app = express()
 
-app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')))
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
 
-// Create link to Angular build directory
-var distDir = __dirname + "/dist/";
-app.use(express.static(distDir));
+app.get('/', (req, res) => {
+  console.log(`Rendering 'pages/index' for route '/'`)
+  res.render('pages/index')
+})
 
-app.get('/*', function (req, res) {
-    res.sendFile(distDir);
-});
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", '*');
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-  next();
-});
-
-
- // Initialize the app.
-  var server = app.listen(process.env.PORT || 3000, function () {
-    var port = server.address().port;
-    console.log("App now running on port", port);
-  });
+const server = app.listen(port, () => {
+  console.log(`Listening on ${port}`)
+})
 
 // The number of seconds an idle Keep-Alive connection is kept open. This should be greater than the Heroku Router's
 // Keep-Alive idle timeout of 90 seconds:

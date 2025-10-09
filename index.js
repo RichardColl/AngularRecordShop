@@ -5,14 +5,17 @@ const port = process.env.PORT || 5006
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.set('views', path.join(__dirname, 'views'))
+//app.use(express.static(path.join(__dirname, 'public')))
+//app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
-  console.log(`Rendering 'pages/index' for route '/'`)
-  res.render('pages/index')
-})
+// Create link to Angular build directory
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
+app.get('/*', function (req, res) {
+    res.sendFile(distDir);
+});
 
 const server = app.listen(port, () => {
   console.log(`Listening on ${port}`)
